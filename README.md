@@ -1,12 +1,34 @@
-# Baremetal x86 Game
+# Running Code Without an OS
 
-A simple game running directly on x86 hardware without any operating system. Built from scratch as a fun project to learn about baremetal programming.
+**What if you could delete Windows, Linux, and every OS from existence... and still run your code?**
+
+This project does exactly that. A game that boots directly on your CPU - no operating system, no drivers, no safety net. Just raw machine code talking directly to hardware.
+
+Built from scratch because I wanted to understand what actually happens when you press the power button.
 
 ---
 
 ## What is Baremetal Programming?
 
-Baremetal programming means writing code that runs directly on hardware without an operating system. When you turn on a computer:
+When you run a normal program, there's a whole tower of abstraction beneath you:
+
+```
+  Your Code
+      ↓
+  C Runtime Library
+      ↓
+  Operating System (Windows/Linux)
+      ↓
+  Drivers
+      ↓
+  BIOS/UEFI
+      ↓
+  Actual Hardware
+```
+
+**Baremetal programming throws all of that away.** Your code runs directly on the CPU, one level above the silicon itself.
+
+When you turn on a computer:
 
 1. The BIOS/UEFI initializes hardware
 2. It looks for a bootable device (HDD, USB, Floppy)
@@ -21,7 +43,7 @@ In baremetal programming, YOU write that code. There's no OS to help you - no `p
 
 ---
 
-## Project Overview
+## What I built
 
 This project implements:
 
