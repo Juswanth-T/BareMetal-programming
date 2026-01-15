@@ -88,15 +88,52 @@ This project implements:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Memory Layout
+### Disk Layout
 
-| Address     | Content                    |
-|-------------|----------------------------|
-| `0x0000`    | Interrupt Vector Table     |
-| `0x1000`    | Game code (loaded here)    |
-| `0x7C00`    | Bootloader (BIOS loads here)|
-| `0x90000`   | Stack (grows downward)     |
-| `0xA0000`   | VGA Framebuffer            |
+The build process concatenates files into a disk image:
+
+```
+Disk Image (disk.img)
+├─ Sector 0 (bytes 0-511)      ← bootloader.bin
+│  └─ Last 2 bytes: 0x55 0xAA  (boot signature)
+├─ Sector 1 (bytes 512-1023)   ← game.bin starts
+├─ Sector 2 (bytes 1024-1535)
+├─ Sectors 3-8...
+└─ More game code
+```
+
+Created by: `copy /b bootloader.bin + game.bin disk.img`
+
+### Memory Layout & Boot Process
+
+**How BIOS Finds the Bootloader:**
+
+1. BIOS reads **first 512 bytes** from boot device
+2. Checks bytes 510-511 for magic signature `0x55 0xAA`
+3. If valid → copies to RAM address **0x7C00** (hardcoded)
+4. Jumps to 0x7C00 and starts executing
+
+**Why 0x7C00?** IBM PC convention from 1981. The `[ORG 0x7C00]` directive in bootloader.asm tells NASM that code will execute at this address.
+
+**Memory After Boot:**
+
+| Address     | Content                        | Loaded By    |
+|-------------|--------------------------------|--------------|
+| `0x0000`    | Interrupt Vector Table (BIOS)  | BIOS         |
+| `0x7C00`    | **Bootloader** (512 bytes)     | BIOS         |
+| `0x1000`    | **Game code** (loaded here)    | Bootloader   |
+| `0x90000`   | Stack (grows downward)         | Bootloader   |
+| `0xA0000`   | VGA Framebuffer                | Hardware     |
+
+The bootloader then loads game code from disk sectors 1-8 into RAM at 0x1000:
+
+```asm
+mov ah, 0x02        ; BIOS function: Read sectors
+mov al, 8           ; Read 8 sectors
+mov cl, 2           ; Start at sector 2 (skip boot sector)
+mov bx, 0x1000      ; Load to RAM address 0x1000
+int 0x13            ; Call BIOS disk service
+```
 
 ### Real Mode vs Protected Mode
 
