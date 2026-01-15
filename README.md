@@ -136,6 +136,20 @@ if (inb(0x64) & 1) {
 - Port `0x60` - Keyboard data (scancode)
 
 ---
+### Linker Script (linker.ld)
+
+When GCC compiles code, it organizes output into **sections**:
+
+| Section    | Contains                          |
+|------------|-----------------------------------|
+| `.text`    | Executable code (functions)       |
+| `.data`    | Initialized global variables      |
+| `.rodata`  | Read-only data (constants)        |
+| `.bss`     | Uninitialized global variables    |
+
+The problem: **GCC doesn't guarantee function order.Your `_start` entry point might end up in the middle of the binary instead of at offset 0.
+
+The linker script solves this: ENTRY(_start)     
 
 ## Requirements
 
