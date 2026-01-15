@@ -21,8 +21,6 @@ When you run a normal program, there's a whole tower of abstraction beneath you:
       ↓
   Drivers
       ↓
-  BIOS/UEFI
-      ↓
   Actual Hardware
 ```
 
