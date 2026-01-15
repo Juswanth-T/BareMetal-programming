@@ -189,19 +189,11 @@ qemu-system-i386 -fda disk.img
 - Windows GCC produces PE/COFF format, not ELF
 - Solution: Use `ld -m i386pe` then `objcopy -O binary`
 
-### 2. Entry Point Placement
-- GCC doesn't put `_start` at binary offset 0
-- Solution: Use `__attribute__((section(".text.startup")))` and custom linker script
-
-### 3. Global Variable Issues
-- Initialized globals need proper data section handling
-- Solution: Use `#define` macros or local variables instead
-
-### 4. 16-bit to 32-bit Transition
+### 2. 16-bit to 32-bit Transition
 - Can't run 32-bit GCC code in 16-bit Real Mode
 - Solution: Bootloader sets up GDT and switches to Protected Mode
 
-### 5. Screen Flickering
+### 3. Screen Flickering
 - Clearing entire screen each frame causes flicker
 - Solution: Only erase/redraw changed regions (dirty rectangles)
 
@@ -213,7 +205,6 @@ qemu-system-i386 -fda disk.img
 2. **No Standard Library** - Everything must be implemented from scratch
 3. **Direct Hardware Access** - I/O ports and memory-mapped registers
 4. **Boot Sector Constraints** - Must fit in 512 bytes with magic signature `0xAA55`
-5. **Toolchain Quirks** - Cross-platform baremetal requires careful build configuration
 
 
 *Built for fun and learning. No operating system was harmed in the making of this project.*
