@@ -10,7 +10,7 @@ Built from scratch because I wanted to understand what actually happens when you
 
 ## Game interface
 
-![Uploading image.png…]()
+<img width="1110" height="782" alt="image" src="https://github.com/user-attachments/assets/dcf779dc-2e5e-4789-80f5-d6a7fe985107" />
 
 
 ## What is Baremetal Programming?
