@@ -8,6 +8,11 @@ Built from scratch because I wanted to understand what actually happens when you
 
 ---
 
+## Game interface
+
+![Uploading image.png…]()
+
+
 ## What is Baremetal Programming?
 
 When you run a normal program, there's a whole tower of abstraction beneath you:
