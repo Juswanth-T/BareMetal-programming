@@ -19,8 +19,8 @@ del game.pe 2>nul
 
 echo Creating disk image...
 copy /b bootloader.bin + game.bin disk.img
-fsutil file createnew padding.bin 1474560
-copy /b disk.img + padding.bin disk.img
+@REM fsutil file createnew padding.bin 1474560
+@REM copy /b disk.img + padding.bin disk.img
 if errorlevel 1 goto error
 
 echo.
